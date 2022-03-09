@@ -46,7 +46,13 @@ public class HighlightService {
 
         User user = userService.getUser(highlightRequestDto.getUserId());
         Theme theme = user.getTheme();
-        String colorOrdinal = theme.getColorOrdinal(theme, highlightRequestDto.getColorHex());
+        String colorOrdinal;
+        boolean contains = theme.checkColor(theme, highlightRequestDto.getColorHex());
+        if (contains) {
+            colorOrdinal = theme.getColorOrdinal(theme, highlightRequestDto.getColorHex());
+        } else {
+            throw new NotFoundColorInCurrentTheme("Not Found Color In Current Theme", ErrorCode.NOT_FOUND_COLOR);
+        }
 
         Highlight highlight = Highlight.builder()
                 .pageId(pageId)
@@ -56,8 +62,8 @@ public class HighlightService {
                 .build();
 
         Highlight newHighlight = highlightRepository.save(highlight);
-//        System.out.println("HIGH LIGHT: " + newHighLight.toString());
         HighlightDto highLightDto = modelMapper.map(newHighlight, HighlightDto.class);
+        highLightDto.setColorHex(highlightRequestDto.getColorHex());
         return highLightDto;
     }
 

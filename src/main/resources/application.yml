@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: liner assignments
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+    cache-duration: PT1H
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?useSSL=false&useUnicode=true&serverTimezone=UTC&useLegacyDatetimeCode=false&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
+    username: root
+    password: 1234
+  jpa:
+    database: mysql
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+    open-in-view: true
+    hibernate:
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+      ddl-auto: create
+      use-new-id-generator-mappings: false
+
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hbm2ddl.auto: create-drop
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+#      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+

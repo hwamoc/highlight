@@ -71,14 +71,18 @@ public class HighlightService {
         Highlight highLight = highlightRepository.findById(id).orElseThrow(() -> new NotFound("Not Found Highlight", ErrorCode.NOT_FOUND_HIGHLIGHT));
         HighlightDto highlightDto = null;
 
+        User user = userService.getUser(highlightUpdateDto.getUserId());
+        Theme theme = user.getTheme();
         String text = highLight.getText();
         String colorOrdinal = highLight.getColorOrdinal();
-        if (highlightUpdateDto.getColorHex() != null) {
-            User user = userService.getUser(highlightUpdateDto.getUserId());
-            Theme theme = user.getTheme();
-            boolean contains = theme.checkColor(theme, highlightUpdateDto.getColorHex());
+        String colorHexOrigin = theme.getColorHex(theme, colorOrdinal);
+        String colorHex = highlightUpdateDto.getColorHex();
+        if (colorHex == null || (colorHex != null && colorHex.equals(colorHexOrigin))) {
+            colorHex = colorHexOrigin;
+        } else {
+            boolean contains = theme.checkColor(theme, colorHex);
             if (contains) {
-                colorOrdinal = theme.getColorOrdinal(theme, highlightUpdateDto.getColorHex());
+                colorOrdinal = theme.getColorOrdinal(theme, colorHex);
             } else {
                 throw new NotFoundColorInCurrentTheme("Not Found Color In Current Theme", ErrorCode.NOT_FOUND_COLOR);
             }
@@ -89,7 +93,7 @@ public class HighlightService {
         highLight.setUpdate(colorOrdinal, text);
         Highlight updatedHighlight = highlightRepository.save(highLight);
         highlightDto = modelMapper.map(updatedHighlight, HighlightDto.class);
-        highlightDto.setColorHex(highlightUpdateDto.getColorHex());
+        highlightDto.setColorHex(colorHex);
         return highlightDto;
     }
 

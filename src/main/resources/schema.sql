@@ -57,3 +57,14 @@ CREATE TABLE `highlight`
     CONSTRAINT fk_order_to_user FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_order_to_product FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
+
+CREATE INDEX IDX_CREATEBY ON `theme` (`created_by`);
+
+CREATE INDEX IDX_USER_ID ON `page` (`user_id`);
+CREATE INDEX IDX_PAGE_URL ON `page` (`page_url`);
+
+CREATE INDEX IDX_IDX_PAGE_ID ON `highlight` (`page_id`);
+CREATE INDEX IDX_IDX_USER_ID ON `highlight` (`user_id`);
+CREATE INDEX IDX_IDX_PAGE_ID_USER_ID ON `highlight` (`page_id`, `user_id`);
+
+

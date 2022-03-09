@@ -49,7 +49,6 @@ CREATE TABLE `highlight`
     `user_id`        bigint   NOT NULL,                              --생성자 PK (user 테이블 참조)
     `page_id`        bigint   NOT NULL,                              --페이지 PK (page 테이블 참조)
     `color_ordinal`  varchar(20)       DEFAULT 0 NOT NULL,           --테마 색상 서수값
-    `color_hex`      varchar(20)       DEFAULT '#fdff85' NOT NULL,   --하이라이트 색상
     `text`           varchar(6000)     DEFAULT NULL,                 --내용
     `modified_date`  datetime          DEFAULT NULL,                 --수정 일자
     `created_date`   datetime NOT NULL DEFAULT CURRENT_TIMESTAMP(),

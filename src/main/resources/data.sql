@@ -45,12 +45,12 @@ VALUES (5, 2, 2, 2, '디자인', '2021-07-30 12:30:20');
 INSERT INTO highlight(id, user_id, page_id, color_ordinal, text, modified_date)
 VALUES (6, 2, 3, 3, 'SPACE', '2021-10-21 16:40:40');
 
-INSERT INTO highlight(id, user_id, page_id, color_hex, text, modified_date)
+INSERT INTO highlight(id, user_id, page_id, color_ordinal, text, modified_date)
 VALUES (7, 3, 4, 1, '뚜두뚜두뚜', '2021-01-25 12:10:30');
-INSERT INTO highlight(id, user_id, page_id, color_hex, text, modified_date)
+INSERT INTO highlight(id, user_id, page_id, color_ordinal, text, modified_date)
 VALUES (8, 3, 4, 2, 'blank pink in your area', '2021-01-24 10:30:10');
-INSERT INTO highlight(id, user_id, page_id, color_hex, text, modified_date)
+INSERT INTO highlight(id, user_id, page_id, color_ordinal, text, modified_date)
 VALUES (9, 3, 5, 1, 'everything i need is on the ground', '2021-03-24 18:30:00');
-INSERT INTO highlight(id, user_id, page_id, color_hex, text, modified_date)
+INSERT INTO highlight(id, user_id, page_id, color_ordinal, text, modified_date)
 VALUES (10, 3, 5, 3, 'lets kill this love', null);
 

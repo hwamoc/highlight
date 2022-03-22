@@ -3,6 +3,7 @@ package com.liner.example.theme.domain;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.liner.example.common.BaseTimeEntity;
+import com.liner.example.theme.api.dto.ThemeRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,6 +43,16 @@ public class Theme extends BaseTimeEntity {
     private String fifth;
 
     private String sixth;
+
+    public Theme setUpdate(ThemeRequestDto themeRequestDto) {
+        this.first = themeRequestDto.getFirst();
+        this.second = themeRequestDto.getSecond();
+        this.third = themeRequestDto.getThird();
+        this.fourth = themeRequestDto.getFourth();
+        this.fifth = themeRequestDto.getFifth();
+        this.sixth = themeRequestDto.getSixth();
+        return this;
+    }
 
     public Map<String, Object> getThemeMap(Theme theme) {
         ObjectMapper objectMapper = new ObjectMapper();

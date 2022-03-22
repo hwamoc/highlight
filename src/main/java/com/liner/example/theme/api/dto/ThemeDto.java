@@ -13,13 +13,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ThemeDto extends BaseTimeEntity {
+public class ThemeDto {
 
     private Long id;
 
     private String type;
-
-    private Long createdBy;
 
     private String first;
 

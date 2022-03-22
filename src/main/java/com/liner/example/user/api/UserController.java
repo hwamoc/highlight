@@ -1,32 +1,29 @@
 package com.liner.example.user.api;
 
-import com.liner.example.user.domain.User;
+import com.liner.example.response.ResponseMessage;
+import com.liner.example.response.StatusEnum;
 import com.liner.example.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 
 @RestController
-@RequestMapping(value = "/auth")
+@RequestMapping(value = "/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/signup")
-    @ResponseStatus(HttpStatus.CREATED)
-    public User add() {
-        User user = userService.add();
-        return user;
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseMessage> updateById(@PathVariable("id") @NotNull Long id,
+                                                      @Valid @NotNull @RequestParam Long themeId) {
+        userService.changeTheme(id, themeId);
+        ResponseMessage message = new ResponseMessage(StatusEnum.OK.getStatusCode(), StatusEnum.OK.getCode(), "Successfully Updated", null);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
-
-//    @PostMapping("/login")
-//    public User login() {
-//        User user = userService.login((long) 1);
-//        return user;
-//    }
 }

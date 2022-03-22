@@ -4,7 +4,11 @@ import com.liner.example.highlight.api.dto.HighlightDto;
 import com.liner.example.highlight.service.HighlightService;
 import com.liner.example.page.domain.Page;
 import com.liner.example.page.service.PageService;
+import com.liner.example.response.ResponseMessage;
+import com.liner.example.response.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -21,15 +25,17 @@ public class PageController {
     private HighlightService highlightService;
 
     @GetMapping("/{id}")
-    public List<HighlightDto> getListByPage(@PathVariable("id") @NotNull Long id, @RequestParam @NotNull Long userId) {
+    public ResponseEntity<ResponseMessage> getListByPage(@PathVariable("id") @NotNull Long id, @RequestParam @NotNull Long userId) {
         List<HighlightDto> highlightList = null;
         highlightList = highlightService.getListByPageId(id, userId);
-        return highlightList;
+        ResponseMessage message = new ResponseMessage(StatusEnum.OK.getStatusCode(), StatusEnum.OK.getCode(), "Successfully Retrieved", highlightList);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @GetMapping("/users/{userId}")
-    public List<Page> getListByUserId(@PathVariable Long userId) {
+    public ResponseEntity<ResponseMessage> getListByUserId(@PathVariable Long userId) {
         List<Page> pageList = pageService.getListByUserId(userId);
-        return pageList;
+        ResponseMessage message = new ResponseMessage(StatusEnum.OK.getStatusCode(), StatusEnum.OK.getCode(), "Successfully Retrieved", pageList);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

@@ -7,7 +7,7 @@ import com.liner.example.highlight.api.dto.HighlightUpdateDto;
 import com.liner.example.highlight.service.HighlightService;
 import com.liner.example.page.domain.Page;
 import com.liner.example.page.service.PageService;
-import com.liner.example.response.ApiResponseMessage;
+import com.liner.example.response.ResponseMessage;
 import com.liner.example.response.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,21 +29,22 @@ public class HighlightController {
     private PageService pageService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public HighlightDto add(@RequestBody @Valid HighlightRequestDto highLightRequest) {
+    public ResponseEntity<ResponseMessage> add(@RequestBody @Valid HighlightRequestDto highLightRequest) {
         HighlightDto newHighlight = highlightService.add(highLightRequest);
-        return newHighlight;
+        ResponseMessage message = new ResponseMessage(StatusEnum.CREATED.getStatusCode(), StatusEnum.CREATED.getCode(), "Successfully Created", newHighlight);
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public HighlightDto updateById(@PathVariable("id") @NotNull Long id,
-                                   @RequestBody @Valid HighlightUpdateDto highLightUpdate) {
+    public ResponseEntity<ResponseMessage> updateById(@PathVariable("id") @NotNull Long id,
+                                                      @RequestBody @Valid HighlightUpdateDto highLightUpdate) {
         HighlightDto updatedHighlight = highlightService.updateById(id, highLightUpdate);
-        return updatedHighlight;
+        ResponseMessage message = new ResponseMessage(StatusEnum.OK.getStatusCode(), StatusEnum.OK.getCode(), "Successfully Updated", updatedHighlight);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @GetMapping()
-    public List<HighlightDto> getListByPage(@RequestBody @Valid HighlightRetrieveDto highlightRetrieveDto) {
+    public ResponseEntity<ResponseMessage> getListByPage(@RequestBody @Valid HighlightRetrieveDto highlightRetrieveDto) {
         List<HighlightDto> highlightDtoList = null;
         Long pageId;
         if (highlightRetrieveDto.getPageId() != null) {
@@ -53,13 +54,14 @@ public class HighlightController {
             pageId = page.getId();
         }
         highlightDtoList = highlightService.getListByPageId(pageId, highlightRetrieveDto.getUserId());
-        return highlightDtoList;
+        ResponseMessage message = new ResponseMessage(StatusEnum.OK.getStatusCode(), StatusEnum.OK.getCode(), "Successfully Retrieved", highlightDtoList);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponseMessage> delete(@PathVariable @NotNull Long id, @RequestParam @NotNull Long userId) {
+    public ResponseEntity<ResponseMessage> delete(@PathVariable @NotNull Long id, @RequestParam @NotNull Long userId) {
         highlightService.delete(id);
-        ApiResponseMessage message = new ApiResponseMessage(StatusEnum.OK.getStatusCode(), StatusEnum.OK.getCode(), "Successfully Deleted", null);
+        ResponseMessage message = new ResponseMessage(StatusEnum.OK.getStatusCode(), StatusEnum.OK.getCode(), "Successfully Deleted", null);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 

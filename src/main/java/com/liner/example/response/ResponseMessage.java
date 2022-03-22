@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiResponseMessage {
+public class ResponseMessage {
 
     private Integer code;
 
